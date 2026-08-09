@@ -2,6 +2,7 @@
 "use strict";
 
 const READ_KEY = "na:read:v1";
+const TITLE_LIMIT = 256;
 const THEME_KEY = "na:theme:v1";
 const REFRESH_MS = 10 * 60 * 1000;
 const HISTORY_PAGE = 200;
@@ -69,11 +70,16 @@ function matchesQuery(entry, query) {
 
 /* ---------- latest view ---------- */
 
+function clampTitle(title) {
+  if (title.length <= TITLE_LIMIT) return title;
+  return `${title.slice(0, TITLE_LIMIT).replace(/\s+\S*$/, "")}…`;
+}
+
 function articleLink(entry) {
   const link = el(
     "a",
     { class: "title", href: entry.url, target: "_blank", rel: "noopener", title: entry.summary || entry.title },
-    entry.title
+    clampTitle(entry.title)
   );
   // Mark read on any click (left, middle, ctrl+click). The row restyles immediately.
   const onActivate = () => {

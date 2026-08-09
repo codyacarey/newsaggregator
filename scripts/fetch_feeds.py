@@ -33,6 +33,7 @@ ARCHIVE_DIR = DATA_DIR / "archive"
 LATEST_PER_FEED = 10      # headlines shown per feed card
 MAX_PER_FETCH = 50        # entries considered per feed per run
 SUMMARY_LEN = 280         # plain-text summary truncation
+TITLE_LEN = 256           # stored title truncation (frontend shows titles in full)
 DEDUPE_MONTHS = 3         # months of archive to load for dedupe
 FETCH_TIMEOUT = 25
 USER_AGENT = "feed.codycarey.com aggregator (+https://feed.codycarey.com)"
@@ -133,6 +134,8 @@ def fetch_feed(feed: dict, topic: str) -> dict:
         title = WS_RE.sub(" ", html.unescape(entry.get("title") or "")).strip()
         if not link.startswith("http") or not title:
             continue
+        if len(title) > TITLE_LEN:
+            title = title[:TITLE_LEN].rsplit(" ", 1)[0] + "…"
         published = parse_date(entry)
         if published is None or published > now + dt.timedelta(days=1):
             published = now
