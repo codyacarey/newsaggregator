@@ -3,6 +3,7 @@
 
 const READ_KEY = "na:read:v1";
 const COLLAPSE_KEY = "na:collapsed:v1";
+const NEWTAB_KEY = "na:newtab:v1";
 const TITLE_LIMIT = 256;
 const THEME_KEY = "na:theme:v1";
 const REFRESH_MS = 10 * 60 * 1000;
@@ -14,6 +15,7 @@ const state = {
   months: new Map(),       // month key -> entries (loaded on demand)
   read: loadRead(),        // article id -> epoch seconds when read
   collapsed: loadCollapsed(), // Set of collapsed topic names
+  newTab: localStorage.getItem(NEWTAB_KEY) === "1", // default: open in the same tab
   view: "latest",
   query: "",
   unreadOnly: false,
@@ -114,10 +116,21 @@ function clampTitle(title) {
   return `${title.slice(0, TITLE_LIMIT).replace(/\s+\S*$/, "")}…`;
 }
 
+function linkTarget() {
+  // el() skips null attributes, so same-tab links get no target at all.
+  return state.newTab ? "_blank" : null;
+}
+
 function articleLink(entry) {
   const link = el(
     "a",
-    { class: "title", href: entry.url, target: "_blank", rel: "noopener", title: entry.summary || entry.title },
+    {
+      class: "title",
+      href: entry.url,
+      target: linkTarget(),
+      rel: "noopener",
+      title: entry.summary || entry.title,
+    },
     clampTitle(entry.title)
   );
   // Mark read on any click (left, middle, ctrl+click). The row restyles immediately.
@@ -164,7 +177,7 @@ function renderLatest() {
       const header = el(
         "h3",
         {},
-        el("a", { href: feed.site || "#", target: "_blank", rel: "noopener" }, feed.name),
+        el("a", { href: feed.site || "#", target: linkTarget(), rel: "noopener" }, feed.name),
         feed.ok ? "" : el("span", { class: "feed-error", title: feed.error || "" }, "⚠ fetch failed"),
         el(
           "button",
@@ -410,6 +423,14 @@ function setupControls() {
   $("#unread-only").addEventListener("change", (ev) => {
     state.unreadOnly = ev.target.checked;
     render();
+  });
+
+  const newTabToggle = $("#newtab-toggle");
+  newTabToggle.checked = state.newTab;
+  newTabToggle.addEventListener("change", (ev) => {
+    state.newTab = ev.target.checked;
+    localStorage.setItem(NEWTAB_KEY, state.newTab ? "1" : "0");
+    render(); // rebuild links with the new target
   });
 
   for (const id of ["filter-topic", "filter-source", "filter-read", "filter-from", "filter-to"]) {

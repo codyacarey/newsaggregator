@@ -157,6 +157,8 @@ a:hover { color: var(--accent); text-decoration: none; }
 }
 .menu-body button:hover, .import-label:hover { background: var(--btn-bg-hover); }
 .menu-body .danger { background: var(--danger); }
+.menu-toggle { color: var(--text); cursor: pointer; user-select: none; }
+.menu-toggle input { accent-color: var(--accent); }
 .menu-note { margin: 0; font-size: 12px; color: var(--text-dim); }
 
 /* ---- topic nav ----
