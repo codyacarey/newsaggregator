@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>feed.codycarey.com</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="brand"><span class="brand-accent">feed</span><span class="brand-dim">.codycarey.com</span></h1>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="latest" role="tab" aria-selected="true">Latest</button>
+      <button class="tab" data-view="history" role="tab" aria-selected="false">History</button>
+    </nav>
+    <input id="search" type="search" placeholder="Search headlines… ( / )" autocomplete="off">
+    <label class="toggle" title="Show only articles you haven't read">
+      <input type="checkbox" id="unread-only"> unread only
+    </label>
+    <span id="updated" class="updated" title="When the data was last regenerated"></span>
+    <details class="menu">
+      <summary title="Settings">⚙</summary>
+      <div class="menu-body">
+        <button id="theme-toggle">Theme: auto</button>
+        <button id="export-read">Export read history</button>
+        <label class="import-label">Import read history<input type="file" id="import-read" accept=".json" hidden></label>
+        <button id="clear-read" class="danger">Clear read history</button>
+        <p class="menu-note">Read state lives in this browser's localStorage. Export it to move it between machines.</p>
+      </div>
+    </details>
+  </header>
+
+  <nav id="topic-nav" class="topic-nav"></nav>
+
+  <main>
+    <section id="view-latest" class="view"></section>
+
+    <section id="view-history" class="view" hidden>
+      <div class="history-controls">
+        <fieldset id="month-picker">
+          <legend>Months</legend>
+          <div id="month-list" class="month-list"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Filters</legend>
+          <div class="filter-row">
+            <select id="filter-topic"><option value="">All topics</option></select>
+            <select id="filter-source"><option value="">All sources</option></select>
+            <select id="filter-read">
+              <option value="">Read &amp; unread</option>
+              <option value="unread">Unread only</option>
+              <option value="read">Read only</option>
+            </select>
+            <label>From <input type="date" id="filter-from"></label>
+            <label>To <input type="date" id="filter-to"></label>
+          </div>
+        </fieldset>
+      </div>
+      <p id="history-count" class="history-count"></p>
+      <ol id="history-results" class="history-results"></ol>
+      <button id="history-more" class="load-more" hidden>Show more</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Aggregated hourly from <a href="https://github.com/" id="repo-link">feeds.yaml</a> ·
+    inspired by <a href="https://www.jimmyr.com" rel="noopener">jimmyr.com</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

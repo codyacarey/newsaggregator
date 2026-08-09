@@ -1,0 +1,79 @@
+# Feed configuration for feed.codycarey.com
+#
+# Structure:
+#   topics:
+#     - name: <topic shown as a section heading>
+#       feeds:
+#         - name: <display name, also used as the stable source key in the archive>
+#           url:  <RSS/Atom feed URL>
+#           site: <homepage link for the card header>
+#
+# Notes:
+# - "name" is stored on every archived article; renaming a feed orphans its
+#   history under the old name, so prefer adding a new entry over renaming.
+# - The fetcher tolerates failures: a broken feed shows an error badge on the
+#   site but never blocks the other feeds.
+
+topics:
+  - name: Security News
+    feeds:
+      - name: Krebs on Security
+        url: https://krebsonsecurity.com/feed/
+        site: https://krebsonsecurity.com/
+      - name: Schneier on Security
+        url: https://www.schneier.com/feed/atom/
+        site: https://www.schneier.com/
+      - name: The Hacker News
+        url: https://feeds.feedburner.com/TheHackersNews
+        site: https://thehackernews.com/
+      - name: BleepingComputer
+        url: https://www.bleepingcomputer.com/feed/
+        site: https://www.bleepingcomputer.com/
+      - name: SANS Internet Storm Center
+        url: https://isc.sans.edu/rssfeed_full.xml
+        site: https://isc.sans.edu/
+      - name: CISA Advisories
+        url: https://www.cisa.gov/cybersecurity-advisories/all.xml
+        site: https://www.cisa.gov/news-events/cybersecurity-advisories
+      - name: Google Project Zero
+        url: https://googleprojectzero.blogspot.com/feeds/posts/default?alt=rss
+        site: https://googleprojectzero.blogspot.com/
+      - name: r/netsec
+        url: https://www.reddit.com/r/netsec/.rss
+        site: https://www.reddit.com/r/netsec/
+
+  - name: Cloud & Infrastructure
+    feeds:
+      - name: Google Cloud Blog
+        url: https://cloudblog.withgoogle.com/rss/
+        site: https://cloud.google.com/blog/
+      - name: AWS News Blog
+        url: https://aws.amazon.com/blogs/aws/feed/
+        site: https://aws.amazon.com/blogs/aws/
+      - name: Microsoft Azure Blog
+        url: https://azure.microsoft.com/en-us/blog/feed/
+        site: https://azure.microsoft.com/en-us/blog/
+      - name: Kubernetes Blog
+        url: https://kubernetes.io/feed.xml
+        site: https://kubernetes.io/blog/
+      - name: Cloudflare Blog
+        url: https://blog.cloudflare.com/rss/
+        site: https://blog.cloudflare.com/
+      - name: Tailscale Blog
+        url: https://tailscale.com/blog/index.xml
+        site: https://tailscale.com/blog
+
+  - name: Tech News
+    feeds:
+      - name: Hacker News
+        url: https://hnrss.org/frontpage
+        site: https://news.ycombinator.com/
+      - name: Lobsters
+        url: https://lobste.rs/rss
+        site: https://lobste.rs/
+      - name: Ars Technica
+        url: https://feeds.arstechnica.com/arstechnica/index
+        site: https://arstechnica.com/
+      - name: The Register
+        url: https://www.theregister.com/headlines.atom
+        site: https://www.theregister.com/
