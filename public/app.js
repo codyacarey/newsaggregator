@@ -288,6 +288,38 @@ function applyTheme(mode) {
   $("#theme-toggle").textContent = `Theme: ${mode}`;
 }
 
+function setupStickyTopicNav() {
+  const nav = $("#topic-nav");
+  const topbar = document.querySelector(".topbar");
+
+  // The top bar wraps on narrow screens, so measure its real height and expose
+  // it to CSS for the nav's sticky offset and the sections' scroll margin.
+  const setTopbarHeight = () =>
+    document.documentElement.style.setProperty("--topbar-h", `${topbar.offsetHeight}px`);
+  new ResizeObserver(setTopbarHeight).observe(topbar);
+  window.addEventListener("resize", setTopbarHeight);
+  window.addEventListener("load", setTopbarHeight);
+  setTopbarHeight();
+
+  let lastY = window.scrollY;
+  window.addEventListener(
+    "scroll",
+    () => {
+      const y = window.scrollY;
+      const dy = y - lastY;
+      lastY = y;
+      if (y <= nav.offsetHeight + topbar.offsetHeight) {
+        nav.classList.remove("nav-hidden"); // at/near the top: always visible
+      } else if (dy > 4) {
+        nav.classList.add("nav-hidden");
+      } else if (dy < -4) {
+        nav.classList.remove("nav-hidden");
+      }
+    },
+    { passive: true }
+  );
+}
+
 function setupControls() {
   document.querySelectorAll(".tab").forEach((tab) =>
     tab.addEventListener("click", () => switchView(tab.dataset.view))
@@ -386,6 +418,7 @@ async function loadData() {
 
 async function init() {
   setupControls();
+  setupStickyTopicNav();
   try {
     await loadData();
   } catch (err) {

@@ -17,6 +17,8 @@ import html
 import json
 import re
 import sys
+import threading
+import time
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -34,6 +36,13 @@ SUMMARY_LEN = 280         # plain-text summary truncation
 DEDUPE_MONTHS = 3         # months of archive to load for dedupe
 FETCH_TIMEOUT = 25
 USER_AGENT = "feed.codycarey.com aggregator (+https://feed.codycarey.com)"
+BROWSER_UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+)
+RETRY_STATUS = {403, 429}  # bot-blocked / rate-limited: retry once with a browser UA
+RETRY_DELAY = 20
+HOST_SPACING = 3.0         # min seconds between requests to the same host (reddit 429s bursts)
 
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
@@ -81,10 +90,33 @@ def parse_date(entry) -> dt.datetime | None:
     return None
 
 
+_host_locks: dict[str, threading.Lock] = {}
+_host_locks_guard = threading.Lock()
+_host_last: dict[str, float] = {}
+
+
+def _throttle(host: str) -> None:
+    with _host_locks_guard:
+        lock = _host_locks.setdefault(host, threading.Lock())
+    with lock:
+        wait = _host_last.get(host, 0.0) + HOST_SPACING - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _host_last[host] = time.monotonic()
+
+
 def fetch_feed(feed: dict, topic: str) -> dict:
     result = {"feed": feed["name"], "topic": topic, "ok": False, "error": None, "entries": []}
     try:
+        host = urlsplit(feed["url"]).netloc
+        _throttle(host)
         resp = requests.get(feed["url"], timeout=FETCH_TIMEOUT, headers={"User-Agent": USER_AGENT})
+        if resp.status_code in RETRY_STATUS:
+            time.sleep(RETRY_DELAY)
+            _throttle(host)
+            resp = requests.get(
+                feed["url"], timeout=FETCH_TIMEOUT, headers={"User-Agent": BROWSER_UA}
+            )
         resp.raise_for_status()
         parsed = feedparser.parse(resp.content)
     except Exception as exc:  # noqa: BLE001 - one bad feed must never sink the run

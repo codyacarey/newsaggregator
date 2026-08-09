@@ -45,28 +45,31 @@ topics:
         url: https://blog.trailofbits.com/feed/
         site: https://blog.trailofbits.com/
       - name: oss-security
-        url: https://www.openwall.com/lists/oss-security/rss/
-        site: https://www.openwall.com/lists/oss-security/
+        # openwall.com has no RSS; this is the seclists.org mirror of the same list
+        url: https://seclists.org/rss/oss-sec.rss
+        site: https://seclists.org/oss-sec/
       - name: Red Hat Security Blog
         url: https://www.redhat.com/en/rss/blog/channel/security
         site: https://www.redhat.com/en/blog/channel/security
 
   - name: Compliance & Advisories
     feeds:
-      - name: NIST NVD
-        url: https://nvd.nist.gov/feeds/xml/cve/misc/nvd-rss-analyzed.xml
-        site: https://nvd.nist.gov/
-      - name: NIST CSRC News
-        url: https://csrc.nist.gov/CSRC/media/Feeds/news.xml
-        site: https://csrc.nist.gov/news
-      - name: FedRAMP Blog
-        url: https://www.fedramp.gov/feed.xml
-        site: https://www.fedramp.gov/blog/
+      # NIST NVD retired all of its RSS feeds (API-only now); CIS advisories
+      # cover much of the same ground and have a working feed:
+      - name: CIS Security Advisories
+        url: https://www.cisecurity.org/feed/advisories
+        site: https://www.cisecurity.org/advisories/
+      # - name: NIST CSRC News          # no working feed found (all known URLs 404)
+      #   url: https://csrc.nist.gov/CSRC/media/Feeds/news.xml
+      #   site: https://csrc.nist.gov/news
+      # - name: FedRAMP Blog            # no working feed found on the new fedramp.gov
+      #   url: https://www.fedramp.gov/feed.xml
+      #   site: https://www.fedramp.gov/blog/
       - name: AWS Security Bulletins
         url: https://aws.amazon.com/security/security-bulletins/feed/
         site: https://aws.amazon.com/security/security-bulletins/
       - name: Jenkins Security Advisories
-        url: https://www.jenkins.io/security/advisories/index.xml
+        url: https://www.jenkins.io/security/advisories/rss.xml
         site: https://www.jenkins.io/security/advisories/
 
   - name: DevSecOps & Supply Chain
@@ -84,7 +87,7 @@ topics:
         url: https://www.chainguard.dev/unchained/rss.xml
         site: https://www.chainguard.dev/unchained
       - name: Sigstore Blog
-        url: https://blog.sigstore.dev/rss/
+        url: https://blog.sigstore.dev/index.xml
         site: https://blog.sigstore.dev/
       - name: Wiz Blog
         url: https://www.wiz.io/feed/rss.xml
@@ -135,7 +138,7 @@ topics:
         url: https://kubernetes.io/feed.xml
         site: https://kubernetes.io/blog/
       - name: Kubernetes Contributor Blog
-        url: https://www.kubernetes.dev/feed.xml
+        url: https://www.kubernetes.dev/blog/index.xml
         site: https://www.kubernetes.dev/blog/
       - name: Last Week in Kubernetes Development
         url: https://lwkd.info/feed.xml
@@ -147,16 +150,16 @@ topics:
         url: https://thenewstack.io/feed/
         site: https://thenewstack.io/
       - name: iximiuz
-        url: https://iximiuz.com/en/feed.rss
-        site: https://iximiuz.com/en/
+        url: https://iximiuz.com/feed.rss
+        site: https://iximiuz.com/
       - name: Learnk8s Blog
-        url: https://learnk8s.io/blog/rss.xml
+        url: https://learnk8s.io/rss.xml
         site: https://learnk8s.io/blog
       - name: SUSE Rancher Blog
         url: https://www.suse.com/c/rancherblog/feed/
         site: https://www.suse.com/c/rancherblog/
       - name: Cilium Blog
-        url: https://cilium.io/rss.xml
+        url: https://cilium.io/blog/rss.xml
         site: https://cilium.io/blog/
       - name: Istio Blog
         url: https://istio.io/latest/feed.xml
@@ -168,7 +171,7 @@ topics:
         url: https://grafana.com/blog/index.xml
         site: https://grafana.com/blog/
       - name: Komodor Blog
-        url: https://komodor.com/feed/
+        url: https://komodor.com/feed/?post_type=post
         site: https://komodor.com/blog/
       - name: r/kubernetes
         url: https://www.reddit.com/r/kubernetes/.rss
@@ -188,15 +191,15 @@ topics:
       - name: Argo CD Releases
         url: https://github.com/argoproj/argo-cd/releases.atom
         site: https://github.com/argoproj/argo-cd/releases
-      - name: Akuity Blog
-        url: https://akuity.io/blog/rss.xml
-        site: https://akuity.io/blog
+      # - name: Akuity Blog            # no working feed found
+      #   url: https://akuity.io/blog/rss.xml
+      #   site: https://akuity.io/blog
       - name: Codefresh Blog
         url: https://codefresh.io/feed/
         site: https://codefresh.io/blog/
-      - name: Jenkins Blog
-        url: https://www.jenkins.io/node/index.xml
-        site: https://www.jenkins.io/node/
+      # - name: Jenkins Blog           # no working feed found (jenkins.io restructured;
+      #   url: https://www.jenkins.io/node/index.xml   # security advisories feed still works)
+      #   site: https://www.jenkins.io/node/
       - name: GitLab Blog
         url: https://about.gitlab.com/atom.xml
         site: https://about.gitlab.com/blog/
@@ -204,17 +207,19 @@ topics:
         url: https://github.blog/changelog/feed/
         site: https://github.blog/changelog/
       - name: Octopus Deploy Blog
-        url: https://octopus.com/blog/rss
+        url: https://octopus.com/blog/feed.xml
         site: https://octopus.com/blog
       - name: Tekton Blog
-        url: https://tekton.dev/feed.xml
+        url: https://tekton.dev/blog/index.xml
         site: https://tekton.dev/blog/
       - name: r/devops
         url: https://www.reddit.com/r/devops/.rss
         site: https://www.reddit.com/r/devops/
-      - name: DevOps'ish
-        url: https://devopsish.com/index.xml
-        site: https://devopsish.com/
+      # DevOps'ish (the newsletter) has no working feed anymore; its author's
+      # blog does:
+      - name: Chris Short
+        url: https://chrisshort.net/index.xml
+        site: https://chrisshort.net/
       - name: InfoQ DevOps
         url: https://feed.infoq.com/devops/
         site: https://www.infoq.com/devops/
@@ -231,14 +236,14 @@ topics:
         url: https://github.com/hashicorp/terraform-provider-aws/releases.atom
         site: https://github.com/hashicorp/terraform-provider-aws/releases
       - name: OpenTofu Blog
-        url: https://opentofu.org/blog/index.xml
+        url: https://opentofu.org/blog/rss.xml
         site: https://opentofu.org/blog/
       - name: Gruntwork Blog
-        url: https://blog.gruntwork.io/feed
+        url: https://medium.com/feed/gruntwork
         site: https://blog.gruntwork.io/
-      - name: Spacelift Blog
-        url: https://spacelift.io/blog/rss.xml
-        site: https://spacelift.io/blog
+      # - name: Spacelift Blog         # no working feed found
+      #   url: https://spacelift.io/rss
+      #   site: https://spacelift.io/blog
       - name: Pulumi Blog
         url: https://www.pulumi.com/blog/rss.xml
         site: https://www.pulumi.com/blog/
@@ -248,9 +253,9 @@ topics:
       - name: Red Hat Ansible Blog
         url: https://www.redhat.com/en/rss/blog/channel/red-hat-ansible-automation
         site: https://www.redhat.com/en/blog/channel/ansible
-      - name: env0 Blog
-        url: https://www.env0.com/blog/rss.xml
-        site: https://www.env0.com/blog
+      # - name: env0 Blog              # no working feed found
+      #   url: https://www.env0.com/blog/rss.xml
+      #   site: https://www.env0.com/blog
 
   - name: AWS
     feeds:
@@ -312,10 +317,10 @@ topics:
         url: https://www.allthingsdistributed.com/atom.xml
         site: https://www.allthingsdistributed.com/
       - name: cloudonaut
-        url: https://cloudonaut.io/rss.xml
+        url: https://cloudonaut.io/rss/
         site: https://cloudonaut.io/
       - name: Off-by-none
-        url: https://offbynone.io/rss.xml
+        url: https://offbynone.io/feed/
         site: https://offbynone.io/
       - name: r/aws
         url: https://www.reddit.com/r/aws/.rss
@@ -323,12 +328,14 @@ topics:
 
   - name: Databases — Oracle
     feeds:
-      - name: Oracle Database Insider
-        url: https://blogs.oracle.com/database/rss
-        site: https://blogs.oracle.com/database/
-      - name: Oracle Optimizer Blog
-        url: https://blogs.oracle.com/optimizer/rss
-        site: https://blogs.oracle.com/optimizer/
+      # blogs.oracle.com returns 403 to all non-browser clients (even with a
+      # browser User-Agent) — bot-blocked, so these can't be aggregated:
+      # - name: Oracle Database Insider
+      #   url: https://blogs.oracle.com/database/rss
+      #   site: https://blogs.oracle.com/database/
+      # - name: Oracle Optimizer Blog
+      #   url: https://blogs.oracle.com/optimizer/rss
+      #   site: https://blogs.oracle.com/optimizer/
       - name: Oracle-Base
         url: https://oracle-base.com/blog/feed
         site: https://oracle-base.com/
@@ -362,9 +369,9 @@ topics:
       - name: Percona Community Blog
         url: https://percona.community/blog/index.xml
         site: https://percona.community/blog/
-      - name: MySQL Server Blog
-        url: https://blogs.oracle.com/mysql/rss
-        site: https://blogs.oracle.com/mysql/
+      # - name: MySQL Server Blog      # blogs.oracle.com bot-blocks all clients (403)
+      #   url: https://blogs.oracle.com/mysql/rss
+      #   site: https://blogs.oracle.com/mysql/
       - name: Planet MySQL
         url: https://planet.mysql.com/rss20.xml
         site: https://planet.mysql.com/
@@ -381,8 +388,9 @@ topics:
         url: https://www.brentozar.com/feed/
         site: https://www.brentozar.com/blog/
       - name: SQLPerformance.com
-        url: https://www.sqlperformance.com/feed
-        site: https://www.sqlperformance.com/
+        # the www. host serves a broken TLS cert; the apex works
+        url: https://sqlperformance.com/feed
+        site: https://sqlperformance.com/
       - name: SQLskills
         url: https://www.sqlskills.com/blogs/paul/feed/
         site: https://www.sqlskills.com/blogs/
@@ -408,7 +416,7 @@ topics:
         url: https://www.crunchydata.com/blog/rss.xml
         site: https://www.crunchydata.com/blog
       - name: pganalyze Blog
-        url: https://pganalyze.com/blog.rss
+        url: https://pganalyze.com/feed.xml
         site: https://pganalyze.com/blog
       - name: EDB Blog
         url: https://www.enterprisedb.com/blog/rss.xml

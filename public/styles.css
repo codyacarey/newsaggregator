@@ -159,7 +159,9 @@ a:hover { color: var(--accent); text-decoration: none; }
 .menu-body .danger { background: var(--danger); }
 .menu-note { margin: 0; font-size: 12px; color: var(--text-dim); }
 
-/* ---- topic nav ---- */
+/* ---- topic nav ----
+   Sticks below the top bar; hides when scrolling down, reappears on the
+   first bit of upward scroll so you can jump topics without going to the top. */
 .topic-nav {
   display: flex;
   gap: 16px;
@@ -168,12 +170,24 @@ a:hover { color: var(--accent); text-decoration: none; }
   border-bottom: 1px solid var(--divider);
   background: var(--panel);
   overflow-x: auto;
+  position: sticky;
+  top: var(--topbar-h, 48px);
+  z-index: 9; /* below .topbar (10) so it slides behind it when hidden */
+  transition: transform .2s ease, opacity .2s ease;
+}
+.topic-nav.nav-hidden {
+  transform: translateY(-150%);
+  opacity: 0;
+  pointer-events: none;
 }
 .topic-nav a { font-weight: 400; color: var(--text-dim); }
 .topic-nav a:hover { color: var(--accent); }
 
 /* ---- latest view ---- */
 main { padding: 12px 16px 40px; }
+
+/* anchor jumps land below the sticky top bar + topic nav */
+.topic-section { scroll-margin-top: calc(var(--topbar-h, 48px) + 40px); }
 
 .topic-section h2 {
   font-size: 15px;
