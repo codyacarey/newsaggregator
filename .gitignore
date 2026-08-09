@@ -4,3 +4,4 @@ __pycache__/
 venv/
 public/data/archive/*.json
 public/data/*.json
+.claude/
