@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "public" / "data"
 ARCHIVE_DIR = DATA_DIR / "archive"
 
-LATEST_PER_FEED = 20      # headlines shown per feed card
+LATEST_PER_FEED = 10      # headlines shown per feed card
 MAX_PER_FETCH = 50        # entries considered per feed per run
 SUMMARY_LEN = 280         # plain-text summary truncation
 DEDUPE_MONTHS = 3         # months of archive to load for dedupe
