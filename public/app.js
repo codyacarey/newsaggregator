@@ -2,6 +2,7 @@
 "use strict";
 
 const READ_KEY = "na:read:v1";
+const COLLAPSE_KEY = "na:collapsed:v1";
 const TITLE_LIMIT = 256;
 const THEME_KEY = "na:theme:v1";
 const REFRESH_MS = 10 * 60 * 1000;
@@ -12,6 +13,7 @@ const state = {
   archiveIndex: null,      // parsed archive/index.json
   months: new Map(),       // month key -> entries (loaded on demand)
   read: loadRead(),        // article id -> epoch seconds when read
+  collapsed: loadCollapsed(), // Set of collapsed topic names
   view: "latest",
   query: "",
   unreadOnly: false,
@@ -39,6 +41,43 @@ function markRead(id) {
     state.read[id] = Math.floor(Date.now() / 1000);
     saveRead();
   }
+}
+
+/* ---------- collapsed-topics store ---------- */
+
+function loadCollapsed() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(COLLAPSE_KEY)) || []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveCollapsed() {
+  localStorage.setItem(COLLAPSE_KEY, JSON.stringify([...state.collapsed]));
+}
+
+function toggleCollapsed(topicName) {
+  if (state.collapsed.has(topicName)) state.collapsed.delete(topicName);
+  else state.collapsed.add(topicName);
+  saveCollapsed();
+  render(); // re-render nav too so the collapse/expand-all label stays accurate
+}
+
+function allTopicsCollapsed() {
+  return state.latest.topics.every((topic) => state.collapsed.has(topic.name));
+}
+
+function setAllCollapsed(collapse) {
+  state.collapsed = collapse
+    ? new Set(state.latest.topics.map((topic) => topic.name))
+    : new Set();
+  saveCollapsed();
+  render();
+}
+
+function expandTopic(topicName) {
+  if (state.collapsed.has(topicName)) toggleCollapsed(topicName);
 }
 
 /* ---------- helpers ---------- */
@@ -145,9 +184,22 @@ function renderLatest() {
 
     if (topicVisible) {
       const anchor = topic.name.toLowerCase().replace(/\W+/g, "-");
-      container.append(
-        el("section", { class: "topic-section", id: `topic-${anchor}` }, el("h2", {}, topic.name), grid)
+      // An active search overrides collapse so matches are never hidden.
+      const isCollapsed = state.collapsed.has(topic.name) && !state.query;
+      const header = el(
+        "h2",
+        { onclick: () => toggleCollapsed(topic.name), title: "Collapse/expand this category" },
+        el("span", { class: `chev${isCollapsed ? "" : " open"}` }, "▶"),
+        topic.name,
+        isCollapsed ? el("span", { class: "collapsed-note" }, `${topicVisible} feeds hidden`) : ""
       );
+      const section = el(
+        "section",
+        { class: `topic-section${isCollapsed ? " collapsed" : ""}`, id: `topic-${anchor}` },
+        header
+      );
+      if (!isCollapsed) section.append(grid);
+      container.append(section);
     }
   }
 }
@@ -158,8 +210,19 @@ function renderTopicNav() {
   if (!state.latest || state.view !== "latest") return;
   for (const topic of state.latest.topics) {
     const anchor = topic.name.toLowerCase().replace(/\W+/g, "-");
-    nav.append(el("a", { href: `#topic-${anchor}` }, topic.name));
+    // Jumping to a collapsed section expands it first so the jump lands on content.
+    nav.append(
+      el("a", { href: `#topic-${anchor}`, onclick: () => expandTopic(topic.name) }, topic.name)
+    );
   }
+  const collapseAll = !allTopicsCollapsed();
+  nav.append(
+    el(
+      "button",
+      { class: "collapse-all-btn", onclick: () => setAllCollapsed(collapseAll) },
+      collapseAll ? "collapse all" : "expand all"
+    )
+  );
 }
 
 /* ---------- history view ---------- */
