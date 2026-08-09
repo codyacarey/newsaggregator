@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+public/data/archive/*.json
+public/data/*.json
