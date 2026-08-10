@@ -2,7 +2,7 @@
 
 A personal news aggregator in the style of [jimmyr.com](https://www.jimmyr.com):
 a static site on GitHub Pages, rebuilt hourly by GitHub Actions from the RSS/Atom
-feeds listed in [`feeds.yaml`](feeds.yaml).
+feeds listed in [`feeds.opml`](feeds.opml).
 
 ## Features
 
@@ -20,12 +20,16 @@ feeds listed in [`feeds.yaml`](feeds.yaml).
 ## How it works
 
 ```
-feeds.yaml ──► scripts/fetch_feeds.py (hourly via Actions)
+feeds.opml ──► scripts/fetch_feeds.py (hourly via Actions)
                  ├── public/data/archive/YYYY-MM.json   append-only history
                  ├── public/data/archive/index.json     month listing
-                 └── public/data/latest.json            newest 20 per feed
+                 ├── public/data/latest.json            newest N per feed
+                 └── public/feeds.opml                  published copy of the config
 public/ ──► deployed to GitHub Pages
 ```
+
+The published `feeds.opml` means <https://feed.codycarey.com/feeds.opml> can be
+imported into any RSS reader, and the site's footer links to it.
 
 Articles are deduplicated by a hash of their normalized URL (tracking params
 stripped) against the last 3 months of archive. `latest.json` is rebuilt from
@@ -62,12 +66,27 @@ articles (with a ⚠ badge).
 
 ### Adding/removing feeds
 
-Edit `feeds.yaml` and push. Notes:
+Edit `feeds.opml` and push. It's standard OPML 2.0: one top-level `<outline>`
+per topic, each containing `<outline type="rss" text="…" xmlUrl="…" htmlUrl="…"/>`
+entries.
 
-- `name` is the stable key articles are archived under — add new entries rather
-  than renaming existing ones.
+```xml
+<outline text="Security News" title="Security News">
+  <outline type="rss" text="Krebs on Security"
+           xmlUrl="https://krebsonsecurity.com/feed/"
+           htmlUrl="https://krebsonsecurity.com/"/>
+</outline>
+```
+
+Notes:
+
+- `text`/`title` is the stable key articles are archived under — add new entries
+  rather than renaming existing ones.
+- Because it's plain OPML you can export from an RSS reader and drop the feeds
+  straight in, or import this file into one.
 - A feed that starts failing shows a ⚠ badge on its card but keeps its
-  last-known articles; failures never block other feeds.
+  last-known articles; failures never block other feeds. Feeds with no working
+  URL are left in the file as XML comments explaining why.
 
 ### Local development
 

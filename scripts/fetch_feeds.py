@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch all feeds from feeds.yaml and rebuild the site's JSON data files.
+"""Fetch all feeds from feeds.opml and rebuild the site's JSON data files.
 
 Outputs (all under public/data/):
   latest.json           - per-feed newest articles, grouped by topic, plus fetch status
@@ -16,15 +16,16 @@ import hashlib
 import html
 import json
 import re
+import shutil
 import sys
 import threading
 import time
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+import defusedxml.ElementTree as ET
 import feedparser
 import requests
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "public" / "data"
@@ -154,6 +155,34 @@ def fetch_feed(feed: dict, topic: str) -> dict:
     return result
 
 
+def load_topics() -> list[dict]:
+    """Parse feeds.opml into [{"name": topic, "feeds": [{"name", "url", "site"}]}].
+
+    Topics are the top-level <outline> elements in <body>; feeds are their child
+    <outline> elements carrying an xmlUrl. Standard OPML, so the file round-trips
+    with any RSS reader's import/export.
+    """
+    root = ET.parse(ROOT / "feeds.opml").getroot()
+    topics = []
+    for topic_node in root.findall("./body/outline"):
+        topic_name = topic_node.get("title") or topic_node.get("text") or "Untitled"
+        feeds = []
+        for node in topic_node.iter("outline"):
+            url = node.get("xmlUrl")
+            if not url:
+                continue
+            feeds.append(
+                {
+                    "name": node.get("title") or node.get("text") or url,
+                    "url": url,
+                    "site": node.get("htmlUrl", ""),
+                }
+            )
+        if feeds:
+            topics.append({"name": topic_name, "feeds": feeds})
+    return topics
+
+
 def month_key(ts: dt.datetime) -> str:
     return ts.strftime("%Y-%m")
 
@@ -183,8 +212,8 @@ def write_json(path: Path, payload: dict) -> None:
 
 
 def main() -> int:
-    config = yaml.safe_load((ROOT / "feeds.yaml").read_text(encoding="utf-8"))
-    jobs = [(feed, topic["name"]) for topic in config["topics"] for feed in topic["feeds"]]
+    topics_config = load_topics()
+    jobs = [(feed, topic["name"]) for topic in topics_config for feed in topic["feeds"]]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
         results = list(pool.map(lambda job: fetch_feed(*job), jobs))
@@ -230,7 +259,7 @@ def main() -> int:
 
     status_by_feed = {r["feed"]: r for r in results}
     topics_out = []
-    for topic in config["topics"]:
+    for topic in topics_config:
         feeds_out = []
         for feed in topic["feeds"]:
             entries = sorted(
@@ -249,6 +278,10 @@ def main() -> int:
         topics_out.append({"name": topic["name"], "feeds": feeds_out})
 
     write_json(DATA_DIR / "latest.json", {"generated": iso(now), "topics": topics_out})
+
+    # Publish the OPML alongside the site so visitors (and other machines) can
+    # import the whole feed list into any RSS reader.
+    shutil.copyfile(ROOT / "feeds.opml", ROOT / "public" / "feeds.opml")
 
     failures = [r for r in results if not r["ok"]]
     print(f"fetched {len(results)} feeds, {new_count} new articles, {len(failures)} failures")
