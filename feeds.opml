@@ -20,6 +20,40 @@
     <outline text="Humor and Entertainment" title="Humor and Entertainment">
       <outline type="rss" text="Reddit Top" title="Reddit Top" xmlUrl="https://www.reddit.com/r/popular/top/.rss" htmlUrl="https://www.reddit.com/r/popular/top/"/>
       <outline type="rss" text="Reddit Top" title="Reddit Humor" xmlUrl="https://www.reddit.com/r/humor/top/.rss" htmlUrl="https://www.reddit.com/r/humor/top/"/>
+      <outline type="rss" text="r/funny" title="r/funny" xmlUrl="https://www.reddit.com/r/funny/.rss" htmlUrl="https://www.reddit.com/r/funny/" description="Reddit's general humor hub"/>
+      <outline type="rss" text="r/movies" title="r/movies" xmlUrl="https://www.reddit.com/r/movies/.rss" htmlUrl="https://www.reddit.com/r/movies/" description="Film news and discussion"/>
+      <outline type="rss" text="The Onion" title="The Onion" xmlUrl="https://theonion.com/feed/" htmlUrl="https://www.theonion.com/" description="Satirical news"/>
+      <outline type="rss" text="ClickHole" title="ClickHole" xmlUrl="https://www.clickhole.com/feed/" htmlUrl="https://www.clickhole.com/" description="Satire and internet culture parody"/>
+      <outline type="rss" text="McSweeney's Internet Tendency" title="McSweeney's Internet Tendency" xmlUrl="https://www.mcsweeneys.net/rss" htmlUrl="https://www.mcsweeneys.net/" description="Literary humor and satire"/>
+      <outline type="rss" text="xkcd" title="xkcd" xmlUrl="https://xkcd.com/rss.xml" htmlUrl="https://xkcd.com/" description="Webcomic of romance, sarcasm, math, and language"/>
+      <outline type="rss" text="The Oatmeal" title="The Oatmeal" xmlUrl="https://theoatmeal.com/feed/rss" htmlUrl="https://theoatmeal.com/" description="Comics and illustrated humor"/>
+      <outline type="rss" text="Dinosaur Comics" title="Dinosaur Comics" xmlUrl="https://qwantz.com/rssfeed.php" htmlUrl="https://qwantz.com/" description="Same art, new jokes, every time"/>
+      <outline type="rss" text="Saturday Morning Breakfast Cereal" title="Saturday Morning Breakfast Cereal" xmlUrl="https://www.smbc-comics.com/comic/rss" htmlUrl="https://www.smbc-comics.com/" description="Science and philosophy webcomic"/>
+      <outline type="rss" text="Cyanide &amp; Happiness" title="Cyanide &amp; Happiness" xmlUrl="http://feeds.feedburner.com/Explosm" htmlUrl="https://explosm.net/" description="Dark-humor webcomic"/>
+      <outline type="rss" text="Variety" title="Variety" xmlUrl="https://variety.com/feed/" htmlUrl="https://variety.com/" description="Film, TV, and music industry news"/>
+      <outline type="rss" text="The Hollywood Reporter" title="The Hollywood Reporter" xmlUrl="https://www.hollywoodreporter.com/feed/" htmlUrl="https://www.hollywoodreporter.com/" description="Entertainment industry news"/>
+      <outline type="rss" text="Deadline" title="Deadline" xmlUrl="https://deadline.com/feed/" htmlUrl="https://deadline.com/" description="Film, TV, and Broadway news"/>
+      <outline type="rss" text="Rolling Stone" title="Rolling Stone" xmlUrl="https://www.rollingstone.com/feed/" htmlUrl="https://www.rollingstone.com/" description="Music, movies, and pop culture"/>
+      <outline type="rss" text="IndieWire" title="IndieWire" xmlUrl="https://www.indiewire.com/feed/" htmlUrl="https://www.indiewire.com/" description="Film and TV criticism"/>
+      <outline type="rss" text="Consequence" title="Consequence" xmlUrl="https://consequence.net/feed/" htmlUrl="https://consequence.net/" description="Music, film, and TV news"/>
+      <outline type="rss" text="The A.V. Club" title="The A.V. Club" xmlUrl="https://www.avclub.com/rss.xml" htmlUrl="https://www.avclub.com/" description="Pop culture reviews and news"/>
+      <outline type="rss" text="CBR" title="CBR" xmlUrl="https://www.cbr.com/feed/" htmlUrl="https://www.cbr.com/" description="Comics, movies, and anime news"/>
+    </outline>
+    <outline text="News and Politics" title="News and Politics">
+      <outline type="rss" text="BBC News" title="BBC News" xmlUrl="https://feeds.bbci.co.uk/news/rss.xml" htmlUrl="https://www.bbc.com/news" description="UK public broadcaster, top stories"/>
+      <outline type="rss" text="BBC News (World)" title="BBC News (World)" xmlUrl="https://feeds.bbci.co.uk/news/world/rss.xml" htmlUrl="https://www.bbc.com/news/world" description="UK public broadcaster, world news"/>
+      <outline type="rss" text="NPR News" title="NPR News" xmlUrl="https://feeds.npr.org/1001/rss.xml" htmlUrl="https://www.npr.org/sections/news/" description="US public radio, straight news desk"/>
+      <outline type="rss" text="PBS News Hour" title="PBS News Hour" xmlUrl="https://www.pbs.org/newshour/feeds/rss/headlines" htmlUrl="https://www.pbs.org/newshour/" description="US public broadcaster, headline news"/>
+      <outline type="rss" text="Christian Science Monitor" title="Christian Science Monitor" xmlUrl="https://rss.csmonitor.com/feeds/all" htmlUrl="https://www.csmonitor.com/" description="Long known for low-bias, fact-focused reporting"/>
+      <outline type="rss" text="Deutsche Welle" title="Deutsche Welle" xmlUrl="https://rss.dw.com/xml/rss-en-all" htmlUrl="https://www.dw.com/en/" description="German public broadcaster, English-language world news"/>
+      <outline type="rss" text="Axios" title="Axios" xmlUrl="https://api.axios.com/feed/" htmlUrl="https://www.axios.com/" description="Concise, just-the-facts news briefs"/>
+      <outline type="rss" text="WSJ World News" title="WSJ World News" xmlUrl="https://feeds.a.dj.com/rss/RSSWorldNews.xml" htmlUrl="https://www.wsj.com/news/world" description="Wall Street Journal news desk (not opinion)"/>
+      <outline type="rss" text="ProPublica" title="ProPublica" xmlUrl="https://www.propublica.org/feeds/propublica/main" htmlUrl="https://www.propublica.org/" description="Nonprofit investigative journalism"/>
+      <outline type="rss" text="The Hill" title="The Hill" xmlUrl="https://thehill.com/feed/?feed=partnerfeed-news-feed&amp;format=rss" htmlUrl="https://thehill.com/" description="Straight reporting on Congress and policy"/>
+      <outline type="rss" text="Real Clear World" title="Real Clear World" xmlUrl="https://www.realclearworld.com/articles/index.xml" htmlUrl="https://www.realclearworld.com/" description="Leading voice in news and commentary."/>
+      <outline type="rss" text="The Center Square" title="The Center Square" xmlUrl="https://www.thecentersquare.com/search/?f=rss&amp;t=article&amp;l=20&amp;s=start_time&amp;fulltext=showtext&amp;sd=desc" htmlUrl="https://www.thecentersquare.com/" description=""/>
+      <!-- AP and Reuters no longer publish public RSS feeds (bot-blocked / retired);
+           Fox News feeds are behind Cloudflare bot protection and don't fetch headlessly. -->
     </outline>
     <outline text="Security News" title="Security News">
       <outline type="rss" text="Krebs on Security" title="Krebs on Security" xmlUrl="https://krebsonsecurity.com/feed/" htmlUrl="https://krebsonsecurity.com/"/>
