@@ -17,6 +17,10 @@
     <title>feed.codycarey.com</title>
   </head>
   <body>
+    <outline text="Humor and Entertainment" title="Humor and Entertainment">
+      <outline type="rss" text="Reddit Top" title="Reddit Top" xmlUrl="https://www.reddit.com/r/popular/top/.rss" htmlUrl="https://www.reddit.com/r/popular/top/"/>
+      <outline type="rss" text="Reddit Top" title="Reddit Humor" xmlUrl="https://www.reddit.com/r/humor/top/.rss" htmlUrl="https://www.reddit.com/r/humor/top/"/>
+    </outline>
     <outline text="Security News" title="Security News">
       <outline type="rss" text="Krebs on Security" title="Krebs on Security" xmlUrl="https://krebsonsecurity.com/feed/" htmlUrl="https://krebsonsecurity.com/"/>
       <outline type="rss" text="Schneier on Security" title="Schneier on Security" xmlUrl="https://www.schneier.com/feed/atom/" htmlUrl="https://www.schneier.com/"/>
